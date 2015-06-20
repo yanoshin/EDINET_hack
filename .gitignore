@@ -1,0 +1,5 @@
+.DS_Store
+*~
+extracted/*
+xbrl/*
+result_only_individual_since_2013.csv
