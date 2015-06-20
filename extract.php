@@ -237,6 +237,8 @@ function parse_doc_html($html)
     $ret_array = array();
     $dom = str_get_html($html);
 
+    if($dom==null) return array();
+
     //発行者に関する情報
     $publisher_name = $dom->find('ix:nonnumeric[name="jplvh_cor:NameOfIssuer"]'); //発行者の名称
     $publisher_ticker = $dom->find('ix:nonnumeric[name="jplvh_cor:SecurityCodeOfIssuer"]'); //証券コード
@@ -244,10 +246,12 @@ function parse_doc_html($html)
     $publisher_StockListing = $dom->find('ix:nonnumeric[name="jplvh_cor:StockListing"]'); //上場金融商品取引所
 
     $publisher = new Publisher();
-    $publisher->setName(get_string_from_html($publisher_name[0]));
-    $publisher->setTicker(get_string_from_html($publisher_ticker[0]));
-    $publisher->setOtc(get_string_from_html($publisher_OTC[0]));
-    $publisher->setStockListing(get_string_from_html($publisher_StockListing[0]));
+    if(isset($publisher_name[0])) {
+        $publisher->setName(get_string_from_html($publisher_name[0]));
+        $publisher->setTicker(get_string_from_html($publisher_ticker[0]));
+        $publisher->setOtc(get_string_from_html($publisher_OTC[0]));
+        $publisher->setStockListing(get_string_from_html($publisher_StockListing[0]));
+    }
 
 
     //提出者に関する情報
